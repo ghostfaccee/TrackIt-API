@@ -1,0 +1,14 @@
+services:
+  api:
+    build: .
+    container_name: trackit-api
+    ports:
+      - "8000:8000"
+    environment:
+      - DATABASE_URL=sqlite+aiosqlite:///./trackit.db
+      - DEBUG=True
+    volumes:
+      - ./trackit.db:/app/trackit.db
+      - ./app:/app/app
+    command: uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
+    restart: unless-stopped
