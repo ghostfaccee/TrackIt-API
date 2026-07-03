@@ -1,5 +1,6 @@
 # TrackIt API
 [![CI](https://github.com/ghostfaccee/TrackIt-API/actions/workflows/ci.yml/badge.svg)](https://github.com/ghostfaccee/TrackIt-API/actions/workflows/ci.yml)
+[![Docker Image CI](https://github.com/ghostfaccee/TrackIt-API/actions/workflows/docker.yml/badge.svg)](https://github.com/ghostfaccee/TrackIt-API/actions/workflows/docker.yml)
 
 API for tracking habits. Written in FastAPI with asynchronous database operations. REST-like approach.
 
