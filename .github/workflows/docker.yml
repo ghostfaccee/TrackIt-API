@@ -28,7 +28,7 @@ jobs:
     - name: Run docker compose
       run: |
         docker compose up -d
-        sleep 10
+        sleep 40
     
     - name: Wait for Postgres
       run: |
