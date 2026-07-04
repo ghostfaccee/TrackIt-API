@@ -6,6 +6,13 @@ on:
   pull_request:
     branches: [ "main" ]
 
+env:
+  POSTGRES_USER: ${{ secrets.POSTGRES_USER }}
+  POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
+  POSTGRES_DB: ${{ secrets.POSTGRES_DB }}
+  DATABASE_URL: ${{ secrets.DATABASE_URL }}
+  DEBUG: ${{ secrets.DEBUG }}
+
 jobs:
 
   build:
@@ -25,7 +32,7 @@ jobs:
     
     - name: Wait for Postgres
       run: |
-        timeout 180s bash -c 'until docker exec pg-db pg_isready -U trackit; do sleep 1; done'
+        timeout 60s bash -c 'until docker exec pg-db pg_isready -U trackit; do sleep 1; done'
         
     - name: Check container is running
       run: |
