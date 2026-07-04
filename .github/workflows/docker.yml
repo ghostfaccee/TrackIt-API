@@ -1,10 +1,17 @@
-name: Docker Image CI
+name: Docker Image
 
 on:
   push:
-    branches: [ "main" ]
+    branches: [ "main", "dev" ]
   pull_request:
     branches: [ "main" ]
+
+env:
+  POSTGRES_USER: ${{ secrets.POSTGRES_USER }}
+  POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
+  POSTGRES_DB: ${{ secrets.POSTGRES_DB }}
+  DATABASE_URL: ${{ secrets.DATABASE_URL }}
+  DEBUG: ${{ secrets.DEBUG }}
 
 jobs:
 
@@ -14,13 +21,26 @@ jobs:
 
     steps:
     - uses: actions/checkout@v6
+
     - name: Build the Docker image
-      run: docker build . --file Dockerfile --tag my-image-name:$(date +%s)
+      run: docker build -t trackit-api:latest .
       
     - name: Run docker compose
       run: |
-        docker compose up -d
-        sleep 10
+        docker compose up -d --build
+        sleep 5
+      env:
+        POSTGRES_USER: ${{ secrets.POSTGRES_USER }}
+        POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
+        POSTGRES_DB: ${{ secrets.POSTGRES_DB }}
+
+    - name: Show API logs
+      run: |
+        docker logs trackit-api --tail 50
+    
+    - name: Wait for Postgres
+      run: |
+        timeout 60s bash -c 'until docker exec pg-db pg_isready -U trackit; do sleep 1; done'
         
     - name: Check container is running
       run: |
