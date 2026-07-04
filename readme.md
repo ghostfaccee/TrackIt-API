@@ -14,7 +14,6 @@ API for tracking habits. Written in FastAPI with asynchronous database operation
 ```
 git clone https://github.com/ghostfaccee/TrackIt-API.git
 cd TrackIt-API
-touch trackit.db
 docker compose up --build
 ```
 
