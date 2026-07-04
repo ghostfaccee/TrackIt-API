@@ -27,8 +27,12 @@ jobs:
       
     - name: Run docker compose
       run: |
-        docker compose up -d
-        sleep 10
+        docker compose up -d --build
+        sleep 5
+      env:
+        POSTGRES_USER: ${{ secrets.POSTGRES_USER }}
+        POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
+        POSTGRES_DB: ${{ secrets.POSTGRES_DB }}
 
     - name: Show API logs
       run: |
