@@ -5,3 +5,4 @@ __pycache__
 *.db
 .env
 check-list-docker.md
+ideas.md

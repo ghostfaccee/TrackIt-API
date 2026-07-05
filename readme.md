@@ -19,5 +19,9 @@ docker compose up --build
 
 **You can view the environment variables in the .env.example file.**
 
+**To get logs in file format, use:**
+    
+    docker compose logs > logs.txt
+
 ## License
 MIT. You can find it in the root of the project.
