@@ -12,6 +12,7 @@ env:
   POSTGRES_DB: ${{ secrets.POSTGRES_DB }}
   DATABASE_URL: ${{ secrets.DATABASE_URL }}
   DEBUG: ${{ secrets.DEBUG }}
+  SLOW_REQUEST_THRESHOLD: ${{ secrets.SLOW_REQUEST_THRESHOLD }}
 
 jobs:
   test:
