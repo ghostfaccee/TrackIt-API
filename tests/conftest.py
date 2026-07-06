@@ -2,7 +2,26 @@ import pytest
 from httpx import AsyncClient, ASGITransport
 from sqlalchemy.ext.asyncio import create_async_engine, AsyncSession, async_sessionmaker
 from app.core.database import Base, get_db
+
+import app.middlewares.rate_limit.limiter as rate_limit_module
+from slowapi import Limiter
+from slowapi.util import get_remote_address
+
+def mock_limit(self, limit_str: str):
+    def decorator(func):
+        return func
+    return decorator
+
+original_limiter_class = Limiter
+rate_limit_module.limiter = Limiter(
+    key_func=get_remote_address,
+    default_limits=["100/minute"]
+)
+rate_limit_module.limiter.limit = mock_limit.__get__(rate_limit_module.limiter, Limiter)
+
 from app.main import app
+
+app.state.limiter = rate_limit_module.limiter
 
 TEST_DATABASE_URL = "sqlite+aiosqlite:///:memory:"
 engine = create_async_engine(TEST_DATABASE_URL, echo=False)
