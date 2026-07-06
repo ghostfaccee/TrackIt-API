@@ -2,9 +2,11 @@ import traceback
 
 from fastapi import FastAPI, Request, status
 from fastapi.responses import JSONResponse
+from slowapi.errors import RateLimitExceeded
 from contextlib import asynccontextmanager
 from app.core.database import engine, Base
-from app.core.middleware import LoggingMiddleware
+from app.middlewares.rate_limit.limiter import limiter, rate_limit_exceed_handler
+from app.middlewares.logging.logging_middleware import LoggingMiddleware
 from app.api import router
 from app.core.logger import logger
 
@@ -16,6 +18,9 @@ async def lifespan(app: FastAPI):
     yield
 
 app = FastAPI(lifespan = lifespan)
+
+app.state.limiter = limiter
+app.add_exception_handler(RateLimitExceeded, rate_limit_exceed_handler)
 
 @app.exception_handler(Exception)
 async def global_exeption_handler(request: Request, exc: Exception):

@@ -6,6 +6,7 @@ class Settings(BaseSettings):
     POSTGRES_PASSWORD: str
     POSTGRES_DB: str
     DATABASE_URL: str
+    REDIS_URL: str
     SLOW_REQUEST_THRESHOLD: float
     DEBUG: bool = True
 
