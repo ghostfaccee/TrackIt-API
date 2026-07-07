@@ -3,6 +3,9 @@ from httpx import AsyncClient, ASGITransport
 from sqlalchemy.ext.asyncio import create_async_engine, AsyncSession, async_sessionmaker
 from app.core.database import Base, get_db
 
+from app.infrastructure.redis.cache import CacheService
+CacheService.disable()
+
 import app.middlewares.rate_limit.limiter as rate_limit_module
 from slowapi import Limiter
 from slowapi.util import get_remote_address
@@ -12,7 +15,6 @@ def mock_limit(self, limit_str: str):
         return func
     return decorator
 
-original_limiter_class = Limiter
 rate_limit_module.limiter = Limiter(
     key_func=get_remote_address,
     default_limits=["100/minute"]
