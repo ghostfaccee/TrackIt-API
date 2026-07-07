@@ -9,12 +9,14 @@ from app.middlewares.rate_limit.limiter import limiter, rate_limit_exceed_handle
 from app.middlewares.logging.logging_middleware import LoggingMiddleware
 from app.api import router
 from app.core.logger import logger
+from app.infrastructure.redis.cache import CacheService
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     async with engine.begin() as conn:
         await conn.run_sync(Base.metadata.create_all)
-        logger.info('Application started')
+    await CacheService.init()
+    logger.info('Application started')
     yield
 
 app = FastAPI(lifespan = lifespan)
