@@ -5,7 +5,7 @@ from fastapi.responses import JSONResponse
 from slowapi.errors import RateLimitExceeded
 from contextlib import asynccontextmanager
 from app.core.database import engine, Base
-from app.middlewares.rate_limit.limiter import limiter, rate_limit_exceed_handler
+from app.middlewares.rate_limit.limiter import RateLimit
 from app.middlewares.logging.logging_middleware import LoggingMiddleware
 from app.api import router
 from app.core.logger import logger
@@ -21,8 +21,8 @@ async def lifespan(app: FastAPI):
 
 app = FastAPI(lifespan = lifespan)
 
-app.state.limiter = limiter
-app.add_exception_handler(RateLimitExceeded, rate_limit_exceed_handler)
+app.state.limiter = RateLimit.get_limiter()
+app.add_exception_handler(RateLimitExceeded, RateLimit.rate_limit_exceed_handler)
 
 @app.exception_handler(Exception)
 async def global_exeption_handler(request: Request, exc: Exception):
