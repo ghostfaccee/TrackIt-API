@@ -4,9 +4,6 @@ from loguru import logger
 
 logger.remove() # removing the old handler to set everything up yourself
 
-log_dir = Path('logs')
-log_dir.mkdir(exist_ok = True)
-
 log_format = (
     '<green>{time:YYYY-MM-DD HH:mm:ss}</green> | '
     '<level>{level: <8}</level> | '
