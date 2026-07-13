@@ -26,8 +26,8 @@ class StatsService:
         
         return streak
 
-    async def get_stats(self, habit_id: int) -> dict:
-        habit = await self.habit_repo.get_by_id(habit_id)
+    async def get_stats(self, user_id: int, habit_id: int) -> dict:
+        habit = await self.habit_repo.get_by_id(user_id, habit_id)
         if not habit:
             raise HabitNotFoundError(habit_id)
         logs = await self.log_repo.get_all_by_habit_id(habit_id)

@@ -7,3 +7,6 @@ __pycache__
 check-list-docker.md
 ideas.md
 my_notes.md
+alembic-tutorial.md
+how-to-add-jwt.md
+pytest.md

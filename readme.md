@@ -16,7 +16,24 @@ API for tracking habits. Written in FastAPI with asynchronous database operation
 ```
 git clone https://github.com/ghostfaccee/TrackIt-API.git
 cd TrackIt-API
-docker compose up --build
+docker compose up --build -d
+```
+
+### Applying new migrations
+```
+docker compose exec api alembic upgrade head
+```
+
+### Stop container
+```
+docker compose down
+```
+
+### Change in the project (for developers)
+If you decide to add changes to the tables yourself or add new ones, create your own migration using alembic inside the docker container
+```
+docker compose exec api alembic revision --autogenerate -m "describe your changes"
+docker compose exec api alembic upgrade head
 ```
 
 **You can view the environment variables in the .env.example file.**
