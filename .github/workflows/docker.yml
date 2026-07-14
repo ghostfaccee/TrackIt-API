@@ -2,7 +2,7 @@ name: Docker Image
 
 on:
   push:
-    branches: [ "main", "dev" ]
+    branches: [ "main", "dev", "feat-jwt" ]
   pull_request:
     branches: [ "main" ]
 
@@ -14,6 +14,9 @@ env:
   DEBUG: ${{ secrets.DEBUG }}
   SLOW_REQUEST_THRESHOLD: ${{ secrets.SLOW_REQUEST_THRESHOLD }}
   REDIS_URL: ${{ secrets.REDIS_URL }}
+  SECRET_KEY: ${{ secrets.SECRET_KEY }}
+  ALGORITHM: ${{ secrets.ALGORITHM }}
+  ACCESS_TOKEN_EXPIRE_MINUTES: ${{ secrets.ACCESS_TOKEN_EXPIRE_MINUTES }}
 
 jobs:
 

@@ -17,7 +17,6 @@ class RateLimit:
         if not cls._enabled_redis:
             return Limiter(
                 key_func = get_remote_address,
-                default_limits = ['20/minute'],
                 enabled = False # Disabling limits for tests
             )
         return Limiter(

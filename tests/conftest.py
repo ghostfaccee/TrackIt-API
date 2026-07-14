@@ -1,8 +1,11 @@
+import random
+import string
 import pytest
 from httpx import AsyncClient, ASGITransport
 from sqlalchemy.ext.asyncio import create_async_engine, AsyncSession, async_sessionmaker
 from app.core.database import Base, get_db
-
+from app.repositories.user_repository import UserRepository
+from app.models.users import User
 from app.infrastructure.redis.cache import CacheService
 from app.middlewares.rate_limit.limiter import RateLimit
 
@@ -39,3 +42,40 @@ async def client():
     transport = ASGITransport(app=app)
     async with AsyncClient(transport=transport, base_url="http://test") as client:
         yield client
+
+@pytest.fixture
+async def auth(client: AsyncClient):
+    rand_suffix = ''.join(random.choices(string.ascii_lowercase + string.digits, k = 6))
+
+    username = f'testuser_{rand_suffix}'
+    email = f'{username}@test.com'
+    password = 'testpass123'
+
+    register_response = await client.post('/v1/auth/register', json = {
+        'username' : username,
+        'email' : email,
+        'password' : password
+    })
+    assert register_response.status_code == 201, 'Failed to register testuser'
+
+    login_response = await client.post('/v1/auth/login', json = {
+        'username' : username,
+        'password' : password
+    })
+    assert login_response.status_code == 200, 'Failed to login testuser'
+
+    token_data = login_response.json()
+    assert 'access_token' in token_data, 'No access_token in login_response'
+
+    return token_data['access_token']
+
+@pytest.fixture
+async def test_user(db_session: AsyncSession):
+    repo = UserRepository(db_session)
+    user = User(
+        username = 'testuser',
+        email = 'email@test.com',
+        hashed_pass = 'hashed_test_pass'
+    )
+    created_user = await repo.create(user)
+    return created_user
