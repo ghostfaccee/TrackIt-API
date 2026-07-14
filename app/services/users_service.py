@@ -1,8 +1,8 @@
+from typing import Optional
 from sqlalchemy.ext.asyncio import AsyncSession
 from app.repositories.user_repository import UserRepository
 from app.models.users import User
 from app.core.exceptions import UserNotFoundError
-from typing import Optional
 
 class UserService:
     def __init__(self, db: AsyncSession):

@@ -1,14 +1,13 @@
 import traceback
-
+from contextlib import asynccontextmanager
 from fastapi import FastAPI, Request, status
 from fastapi.responses import JSONResponse
 from slowapi.errors import RateLimitExceeded
-from contextlib import asynccontextmanager
+from app.api import router
 from app.core.database import engine, Base
+from app.core.logger import logger
 from app.middlewares.rate_limit.limiter import RateLimit
 from app.middlewares.logging.logging_middleware import LoggingMiddleware
-from app.api import router
-from app.core.logger import logger
 from app.infrastructure.redis.cache import CacheService
 
 @asynccontextmanager

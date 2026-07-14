@@ -24,6 +24,9 @@ docker compose up --build -d
 docker compose exec api alembic upgrade head
 ```
 
+### Documentation
+You can view the documentation at `http://127.0.0.1:8000/docs` when the container is running
+
 ### Stop container
 ```
 docker compose down

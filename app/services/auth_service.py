@@ -1,10 +1,9 @@
-from app.core.exceptions import InvalidCredentialsError, UsernameExistsError, EmailExistsError
 from sqlalchemy.ext.asyncio import AsyncSession
 from app.repositories.user_repository import UserRepository
 from app.core.security import hash_password, verify_password, create_access_token
-from app.schemas.auth import UserRegister, UserLogin
+from app.schemas.auth import UserRegister, UserLogin, TokenResponse
 from app.models.users import User
-from app.schemas.auth import TokenResponse
+from app.core.exceptions import InvalidCredentialsError, UsernameExistsError, EmailExistsError
 
 class AuthService:
     def __init__(self, db: AsyncSession):

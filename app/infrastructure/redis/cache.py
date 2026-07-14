@@ -1,7 +1,7 @@
+import redis.asyncio as redis
 from fastapi_cache import FastAPICache
 from fastapi_cache.decorator import cache
 from fastapi_cache.backends.redis import RedisBackend
-import redis.asyncio as redis
 from app.core.config import settings
 
 class CacheService:

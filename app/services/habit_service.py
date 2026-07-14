@@ -1,5 +1,5 @@
-from sqlalchemy.ext.asyncio import AsyncSession
 from typing import List
+from sqlalchemy.ext.asyncio import AsyncSession
 from app.repositories.habit_repository import HabitRepository
 from app.schemas.habit import HabitCreate, HabitUpdate
 from app.core.exceptions import HabitNotFoundError, HabitNameEmptyError

@@ -1,9 +1,8 @@
+from datetime import datetime, timedelta
 from sqlalchemy.ext.asyncio import AsyncSession
 from app.core.exceptions import HabitNotFoundError
 from app.repositories.log_repository import LogRepository
 from app.repositories.habit_repository import HabitRepository
-from datetime import datetime, timedelta
-
 class StatsService:
     def __init__(self, db: AsyncSession):
         self.log_repo = LogRepository(db)
